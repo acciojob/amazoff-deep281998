@@ -72,7 +72,7 @@ public class OrderRepository {
         int assignedOrder=assignedOrderMap.size();
         ans = orderSize-assignedOrder;
         Integer integer = ans;
-        return ans;
+        return integer;
     }
 
     public static Integer getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId) {
@@ -155,6 +155,6 @@ public class OrderRepository {
         List<Order> orderList=listHashMap.getOrDefault(partnerId,new ArrayList<>());
         ans=orderList.size();
         Integer integer=ans;
-        return ans;
+        return integer;
     }
 }
