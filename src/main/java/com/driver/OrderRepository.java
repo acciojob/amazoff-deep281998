@@ -25,12 +25,12 @@ public class OrderRepository {
     public static void addOrderPartnerPair(String orderId, String partnerId) {
         if(listHashMap.containsKey(partnerId) == true){
             List<Order> order = listHashMap.get(partnerId);
-            order.add(orderId);
+            order.add(orderHashMap.get(orderId));
             listHashMap.put(partnerId,order);
         }
         else {
             List<Order> orders = new ArrayList<>();
-            orders.add(orderId);
+            orders.add(orderHashMap.get(orderId));
             listHashMap.put(partnerId,orders);
         }
         if(deliveryPartnerHashMap.containsKey(partnerId) == true){
