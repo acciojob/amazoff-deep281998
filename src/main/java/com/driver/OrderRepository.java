@@ -23,15 +23,25 @@ public class OrderRepository {
     }
 
     public static void addOrderPartnerPair(String orderId, String partnerId) {
-        if(orderHashMap.containsKey(orderId) && deliveryPartnerHashMap.containsKey(partnerId))
-        {
-            List<Order> orderList=listHashMap.getOrDefault(partnerId,new ArrayList<>());
-            Order order=orderHashMap.get(orderId);
-            orderList.add(order);
-            listHashMap.put(partnerId,orderList);
+        if(listHashMap.containsKey(partnerId) == true){
+            List<Order> order = listHashMap.get(partnerId);
+            order.add(orderId);
+            listHashMap.put(partnerId,order);
         }
-        //Now order has been assigned
-        assignedOrderMap.put(orderId, partnerId);
+        else {
+            List<Order> orders = new ArrayList<>();
+            orders.add(orderId);
+            listHashMap.put(partnerId,orders);
+        }
+        if(deliveryPartnerHashMap.containsKey(partnerId) == true){
+            DeliveryPartner deliveryPartner = deliveryPartnerHashMap.get(partnerId);
+            deliveryPartner.setNumberOfOrders(deliveryPartner.getNumberOfOrders()+1);
+            deliveryPartnerHashMap.put(partnerId,deliveryPartner);
+        }
+        else {
+            deliveryPartnerHashMap.put(partnerId,new DeliveryPartner(partnerId));
+        }
+
     }
 
     public static Order getOrderById(String orderId) {
@@ -40,7 +50,7 @@ public class OrderRepository {
     }
 
     public static DeliveryPartner getPartnerById(String partnerId) {
-        return deliveryPartnerHashMap.get(partnerId);
+        return deliveryPartnerHashMap.getOrDefault(partnerId , null);
     }
 
     public static List<String> getOrdersByPartnerId(String partnerId) {
@@ -62,12 +72,11 @@ public class OrderRepository {
         int assignedOrder=assignedOrderMap.size();
         ans = orderSize-assignedOrder;
         Integer integer = ans;
-        return integer;
+        return ans;
     }
 
     public static Integer getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId) {
         int ordersLeft=0;
-
         int targetHours = Integer.parseInt(time.substring(0,2));
         int targetMinutes = Integer.parseInt(time.substring(3));
         int targetTimeInMinutes=targetHours * 60 + targetMinutes;
@@ -146,6 +155,6 @@ public class OrderRepository {
         List<Order> orderList=listHashMap.getOrDefault(partnerId,new ArrayList<>());
         ans=orderList.size();
         Integer integer=ans;
-        return integer;
+        return ans;
     }
 }
