@@ -96,19 +96,21 @@ public class OrderRepository {
 
     public static Integer getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId) {
         int ordersLeft=0;
-        int targetHours = Integer.parseInt(time.substring(0,2));
-        int targetMinutes = Integer.parseInt(time.substring(3));
-        int targetTimeInMinutes=targetHours * 60 + targetMinutes;
+        String str[] = time.split(":");
+        int hour = Integer.parseInt(str[0]);
+        hour=hour*60;
+        int min = Integer.parseInt(str[1]);
+        int targetTimeInMinutes = hour +min;
 
         List<Order> orderList = listHashMap.getOrDefault(partnerId, new ArrayList<>());
         for (Order order : orderList) {
             int deliveryTimeInMinutes = order.getDeliveryTime();
-            if (deliveryTimeInMinutes >= targetTimeInMinutes) {
+            if (deliveryTimeInMinutes > targetTimeInMinutes) {
                 ordersLeft++;
             }
         }
-        Integer integer=ordersLeft;
-        return integer;
+        //Integer integer=ordersLeft;
+        return ordersLeft;
     }
 
     public static String getLastDeliveryTimeByPartnerId(String partnerId) {
