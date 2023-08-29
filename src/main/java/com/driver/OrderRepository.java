@@ -41,7 +41,7 @@ public class OrderRepository {
     }
 
     public static DeliveryPartner getPartnerById(String partnerId) {
-        return deliveryPartnerHashMap.get(partnerId);
+        return deliveryPartnerHashMap.getOrDefault(partnerId , null);
     }
 
     public static List<String> getOrdersByPartnerId(String partnerId) {
