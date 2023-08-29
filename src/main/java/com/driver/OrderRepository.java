@@ -103,11 +103,10 @@ public class OrderRepository {
         List<Order> orderList = listHashMap.getOrDefault(partnerId, new ArrayList<>());
         for (Order order : orderList) {
             int deliveryTimeInMinutes = order.getDeliveryTime();
-            if (deliveryTimeInMinutes > targetTimeInMinutes) {
+            if (deliveryTimeInMinutes >= targetTimeInMinutes) {
                 ordersLeft++;
             }
         }
-        ordersLeft += orderHashMap.size();
         Integer integer=ordersLeft;
         return integer;
     }
