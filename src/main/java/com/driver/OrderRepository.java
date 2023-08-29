@@ -107,6 +107,7 @@ public class OrderRepository {
                 ordersLeft++;
             }
         }
+        ordersLeft += orderHashMap.size();
         Integer integer=ordersLeft;
         return integer;
     }
