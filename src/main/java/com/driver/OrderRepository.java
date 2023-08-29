@@ -88,7 +88,7 @@ public class OrderRepository {
         List<Order> orderList = listHashMap.getOrDefault(partnerId, new ArrayList<>());
         for (Order order : orderList) {
             int deliveryTimeInMinutes = order.getDeliveryTime();
-            if (deliveryTimeInMinutes >= targetTimeInMinutes) {
+            if (deliveryTimeInMinutes > targetTimeInMinutes) {
                 ordersLeft++;
             }
         }
@@ -123,6 +123,7 @@ public class OrderRepository {
              if(assignedOrderMap.containsKey(orderid) == true) {
                  assignedOrderMap.remove(orderid);
              }
+             orderHashMap.put(orderid,order);
          }
          listHashMap.remove(partnerId);
         }
@@ -149,6 +150,8 @@ public class OrderRepository {
                 if(s.equals(orderId))
                 {
                     orderList.remove(order);
+                    listHashMap.put(deliveryPartner.getId(),orderList);
+                    deliveryPartner.setNumberOfOrders(deliveryPartner.getNumberOfOrders()-1);
                     return;
                 }
             }
@@ -157,10 +160,9 @@ public class OrderRepository {
     }
 
     public static Integer getOrderCountByPartnerId(String partnerId) {
-        int ans =0;
-        List<Order> orderList=listHashMap.getOrDefault(partnerId,new ArrayList<>());
-        ans=orderList.size();
-        Integer integer=ans;
+        DeliveryPartner deliveryPartner = deliveryPartnerHashMap.get(partnerId);
+        int ans = deliveryPartner.getNumberOfOrders();
+        Integer integer = ans;
         return integer;
     }
 }
