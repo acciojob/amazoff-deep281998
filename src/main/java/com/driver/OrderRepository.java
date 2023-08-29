@@ -49,8 +49,19 @@ public class OrderRepository {
     }
 
     public static Order getOrderById(String orderId) {
-
-        return orderHashMap.getOrDefault(orderId,null);
+        if(orderHashMap.containsKey(orderId) == true){
+            return orderHashMap.get(orderId);
+        }
+        if(assignedOrderMap.containsKey(orderId)==true){
+            String deliveryid = assignedOrderMap.get(orderId);
+            List<Order> orderList = listHashMap.get(deliveryid);
+            for(Order order : orderList){
+                if(order.getId() == orderId){
+                    return order;
+                }
+            }
+        }
+        return new Order();
     }
 
     public static DeliveryPartner getPartnerById(String partnerId) {
