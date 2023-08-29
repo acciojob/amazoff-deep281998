@@ -13,8 +13,8 @@ public class OrderRepository {
     static HashMap<String,List<Order>> listHashMap = new HashMap<>();
     static HashMap<String,String> assignedOrderMap = new HashMap<>();
     public static void addOrder(Order order) {
-        String orderID= order.getId();
-        orderHashMap.put(orderID,order);
+        String orderid = order.getId();
+        orderHashMap.put(orderid,order);
     }
 
     public static void addPartner(String partnerId) {
@@ -39,8 +39,11 @@ public class OrderRepository {
             deliveryPartnerHashMap.put(partnerId,deliveryPartner);
         }
         else {
-            deliveryPartnerHashMap.put(partnerId,new DeliveryPartner(partnerId));
+            DeliveryPartner deliveryPartner = new DeliveryPartner(partnerId);
+            deliveryPartner.setNumberOfOrders(1);
+            deliveryPartnerHashMap.put(partnerId,deliveryPartner);
         }
+        assignedOrderMap.put(orderId,partnerId);
 
     }
 
@@ -112,14 +115,16 @@ public class OrderRepository {
     }
 
     public static void deletePartnerById(String partnerId) {
-        List<Order> orders = listHashMap.get(partnerId);
-
-        for(Order order : orders)
-        {
-            assignedOrderMap.remove(order.getId());
+        if(listHashMap.containsKey(partnerId)==true){
+         List<Order> orderList = listHashMap.get(partnerId);
+         for(Order order : orderList){
+             String orderid = order.getId();
+             if(assignedOrderMap.containsKey(orderid) == true) {
+                 assignedOrderMap.remove(orderid);
+             }
+         }
+         listHashMap.remove(partnerId);
         }
-
-        listHashMap.remove(partnerId);
     }
 
     public static void deleteOrderById(String orderId) {
