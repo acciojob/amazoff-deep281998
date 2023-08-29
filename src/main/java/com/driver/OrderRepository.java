@@ -89,10 +89,7 @@ public class OrderRepository {
     }
 
     public static Integer getCountOfUnassignedOrders() {
-        int ans=0;
-        int orderSize=orderHashMap.size();
-        int assignedOrder=assignedOrderMap.size();
-        ans = orderSize-assignedOrder;
+        int ans= orderHashMap.size();
         Integer integer = ans;
         return integer;
     }
