@@ -44,6 +44,7 @@ public class OrderRepository {
             deliveryPartnerHashMap.put(partnerId,deliveryPartner);
         }
         assignedOrderMap.put(orderId,partnerId);
+        orderHashMap.remove(orderId);
 
     }
 
